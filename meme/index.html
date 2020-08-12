@@ -8,7 +8,25 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 
-<body>
+<body onload="init()">
+    <h1>Meme Generator</h1>
+    <div class="user-inputs">
+        <input type="text-line" class="text-line" placeholder="Enter text" />
+        <button class="add-txt" onclick="onGetText()">Add text</button>
+        <button onclick="clearCanvas()">Clear</button>
+        <a href="#" onclick="downloadCanvas(this)" download="">Download</a>
+    </div>
+    <hr>
+
+    <div class="canvas-container">
+        <canvas id="myCanvas" height="300" width="500" onclick="draw(event)"></canvas>
+    </div>
+
+    <div class="img-gallery">
+        <img src="img/4.jpg" alt="" onclick="onChooseImg(this)">
+        <img src="img/5.jpg" alt="" onclick="onChooseImg(this)">
+    </div>
+
 
 
 

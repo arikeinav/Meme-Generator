@@ -3,59 +3,67 @@
 function onGetText() {
     gText = document.querySelector('.text-line').value
     updateMemeTxt(gText)
-    renderCanvas()
-    console.log(gMeme);
+    drawImg2()
     document.querySelector('.text-line').value = ''
 }
 
 function onChooseImg(src) {
+    onOpenModal()
+    resizeCanvas()
+    createMeme()
     let elImgUrl = src.getAttribute('src');
     updateMemeImg(elImgUrl);
-    renderCanvas()
+    drawImg2()
 
-}
-
-function renderCanvas() {
-    gMeme.lines.forEach(function() {
-        return drawImg2()
-    })
 }
 
 function onIncreaseText() {
     if (gFontSize === 120) return
     gMeme.lines[gMeme.selectedLineIdx].size++
-        renderCanvas()
+        drawImg2()
 }
 
 function onDecreaseText() {
     if (gFontSize === 20) return
-    console.log(gMeme.lines[gMeme.selectedLineIdx].size)
     gMeme.lines[gMeme.selectedLineIdx].size--
-        console.log(gMeme.lines[gMeme.selectedLineIdx].size)
-    renderCanvas()
+        drawImg2()
 }
 
 function onTextDown() {
     gMeme.lines[gMeme.selectedLineIdx].y++
-        renderCanvas()
+        drawImg2()
 
 
 }
 
 function onTextUp() {
     gMeme.lines[gMeme.selectedLineIdx].y--
-        renderCanvas()
+        drawImg2()
 
 
 }
 
 function onChangeLine() {
     let lineIdx = gMeme.selectedLineIdx
-    console.log(lineIdx);
-    if (lineIdx === 3) {
+    if (lineIdx === 2) {
         gMeme.selectedLineIdx = 0
-        console.log(lineIdx)
     } else gMeme.selectedLineIdx++
-        console.log(lineIdx)
 
+}
+
+function onCloseModal() {
+    document.querySelector('.modal').style.display = 'none'
+    document.querySelector('.gallery').style.display = 'flex'
+}
+
+function onOpenModal() {
+    document.querySelector('.modal').style.display = 'flex'
+    document.querySelector('.gallery').style.display = 'none'
+}
+
+function renderImgs() {
+    var strHtml = gImgs.map(function(img) {
+        return `<img src="${img.url}" alt="" onclick="onChooseImg(this)">`
+    })
+    document.querySelector('.img-container').innerHTML = strHtml.join('')
 }

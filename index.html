@@ -14,29 +14,44 @@
     <header class="main-header container ">
         <div class="logo">Memmmmm</div>
         <div class="header-nav">
-            <div class="tag-frame"> <a class="tag" href="#">Gallery</a></div>
-            <div class="tag-frame"> <a class="tag" href="#">Generator</a></div>
+            <div class="tag-frame gallery-tag"> <a class="tag" href="#" onclick="onCloseModal()">Gallery</a></div>
             <div class="tag-frame"> <a class="tag" href="#">About</a></div>
-
         </div>
     </header>
-    <div class="modal">
-        <div class="user-inputs">
-            <input type="text-line" class="text-line" placeholder="Enter text" />
-            <button class="add-txt" onclick="onGetText()">Add text</button>
-            <button class="increase-txt" onclick="onIncreaseText()">text size +</button>
-            <button class="decrease-txt" onclick="onDecreaseText()">text size -</button>
-            <button class="txt-down" onclick="onTextUp()">text up</button>
-            <button class="txt-up" onclick="onTextDown()">text down</button>
-            <button class="line-change" onclick="onChangeLine()">change line</button>
-            <button onclick="clearCanvas()">Clear</button>
-            <a href="#" onclick="downloadCanvas(this)" download="">Download</a>
-        </div>
-
-
+    <div class="modal container">
         <div class="canvas-container">
-            <canvas id="myCanvas" height="300" width="500" onclick="draw(event)"></canvas>
+            <canvas id="myCanvas" height="550" width="480" onclick="draw(event)"></canvas>
         </div>
+        <div class="editor">
+            <input type="text-line" class="text-line" placeholder="Enter text" />
+            <div class="line-edit">
+                <button class="txt-down" onclick="onTextUp()">text up</button>
+                <button class="txt-up" onclick="onTextDown()">text down</button>
+                <button class="line-change" onclick="onChangeLine()">change line</button>
+                <button class="add-txt" onclick="onGetText()">Add line</button>
+                <button class="add-txt" onclick="onDeleteLine()" ontouchend="onDeleteLine()">Deleate line</button>
+            </div>
+            <div class="text-style">
+                <div class="grid">
+                    <button class="increase-txt" onclick="onIncreaseText()">text size +</button>
+                    <button class="decrease-txt" onclick="onDecreaseText()">text size -</button>
+                    <button class="txt-to-right" onclick="onTextRight()">right</button>
+                    <button class="txt-to-left" onclick="onTextleft()">left</button>
+                    <button class="txt-to-center" onclick="onTextCenter()">center</button>
+                    <button class="text-font" onclick="onChangeFont()">Impact</button>
+                    <button class="stroke-color" onclick="onChangeStrokeColor()">stroke</button>
+                    <button class="txt-color" onclick="onChangeColor()">color</button>
+                </div>
+            </div>
+
+            <div class="stickers">stickers goes here</div>
+
+            <div class="manage"><button onclick="clearCanvas()">Clear</button>
+                <a href="#" onclick="downloadCanvas(this)" download="">Download</a>
+            </div>
+        </div>
+
+
     </div>
 
     <div class="gallery container">
@@ -44,9 +59,8 @@
             <input type="text" class="search-bar" placeholder="search..." />
             <div class="last-results">funny</div>
         </div>
-        <div class="img-container grid">
-            <img src="img/4.jpg" alt="" onclick="onChooseImg(this)">
-            <img src="img/5.jpg" alt="" onclick="onChooseImg(this)">
+        <div class="img-container ">
+
         </div>
     </div>
 

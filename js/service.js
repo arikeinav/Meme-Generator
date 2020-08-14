@@ -35,8 +35,6 @@ var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['happy'] },
 
 function init() {
     renderImgs()
-    gCanvas = document.getElementById('myCanvas');
-    gCtx = gCanvas.getContext('2d');
 
 }
 
@@ -57,9 +55,9 @@ function addLine() {
     for (let i = 0; i < 3; i++) {
         let y;
         if (i === 0) {
-            y = 40
+            y = 50
         } else if (i === 1) {
-            y = gCanvas.height - 15
+            y = gCanvas.height - 20
         } else y = gCanvas.height / 2
 
         let line = {
@@ -68,12 +66,23 @@ function addLine() {
             x: gCanvas.width / 2,
             y: y,
             align: 'center',
-            color: 'red',
+            color: 'white',
+            stroke: 'black',
             font: 'Impact'
         }
         lines.push(line)
     }
     return lines
+}
+
+function updateFillColor(color) {
+    gMeme.lines[gMeme.selectedLineIdx].color = color;
+
+}
+
+function updateStrokeColor(color) {
+    console.log(3);
+    gMeme.lines[gMeme.selectedLineIdx].stroke = color;
 }
 
 function updateMemeImg(url) {
@@ -91,45 +100,16 @@ function getText() {
     return text
 }
 
-
-
-
-
-
-
-
-
-function drawText(text, x, y) {
-    gMeme.lines.forEach(function(line) {
-        text = line.txt
-        x = line.x
-        y = line.y
-        gCtx.lineWidth = '2';
-        gCtx.fillStyle = line.color
-        gCtx.font = line.size + 'px ' + line.font;
-        gCtx.textAlign = line.align;
-        gCtx.fillText(text, x, y);
-        gCtx.strokeText(text, x, y);
-    })
+function deleteLine() {
+    gMeme.lines[gMeme.selectedLineIdx].txt = ''
 }
 
 
 
-function clearCanvas() {
-    gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
-
-}
 
 
 
-function drawImg2() {
-    const img = new Image();
-    img.onload = () => {
-        gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
-        drawText()
-    }
-    img.src = gMeme.imgUrl;
-}
+
 
 
 

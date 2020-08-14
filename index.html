@@ -7,6 +7,7 @@
     <title>My memes</title>
     <link rel="stylesheet" href="css/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" rel="stylesheet">
 </head>
 
 <body onload="init()">
@@ -17,37 +18,45 @@
             <div class="tag-frame gallery-tag"> <a class="tag" href="#" onclick="onCloseModal()">Gallery</a></div>
             <div class="tag-frame"> <a class="tag" href="#">About</a></div>
         </div>
+        <button class="bgr-btn" onclick="toggleMenu()">☰</button>
     </header>
     <div class="modal container">
         <div class="canvas-container">
-            <canvas id="myCanvas" height="550" width="480" onclick="draw(event)"></canvas>
+            <canvas id="myCanvas" height="550" width="480" ontouchstart="handleTouch(event)" ontouchend="handleTouch(event)" ontouchmove="handleTouch(event)" onmousedown="isDown(event)" onmouseup="isDown(event)" onclick="" onmousemove="onMoveElm(event)"></canvas>
         </div>
         <div class="editor">
-            <input type="text-line" class="text-line" placeholder="Enter text" />
+            <input type="text-line" class="text-line" placeholder="Enter text" onkeyup=" onGetText()" />
             <div class="line-edit">
                 <button class="txt-down" onclick="onTextUp()">text up</button>
                 <button class="txt-up" onclick="onTextDown()">text down</button>
-                <button class="line-change" onclick="onChangeLine()">change line</button>
-                <button class="add-txt" onclick="onGetText()">Add line</button>
-                <button class="add-txt" onclick="onDeleteLine()" ontouchend="onDeleteLine()">Deleate line</button>
+                <button class="line-change" onclick="onChangeLine()"><i class="fas fa-sort"></i></button>
+                <button class="add-txt" onclick="onGetText()"><i class="fas fa-plus"></i></button>
+                <button class="add-txt" onclick="onDeleteLine()"><i class="far fa-trash-alt"></i></button>
             </div>
             <div class="text-style">
                 <div class="grid">
-                    <button class="increase-txt" onclick="onIncreaseText()">text size +</button>
-                    <button class="decrease-txt" onclick="onDecreaseText()">text size -</button>
-                    <button class="txt-to-right" onclick="onTextRight()">right</button>
-                    <button class="txt-to-left" onclick="onTextleft()">left</button>
-                    <button class="txt-to-center" onclick="onTextCenter()">center</button>
-                    <button class="text-font" onclick="onChangeFont()">Impact</button>
-                    <button class="stroke-color" onclick="onChangeStrokeColor()">stroke</button>
-                    <button class="txt-color" onclick="onChangeColor()">color</button>
+                    <button class="increase-txt" onclick="onIncreaseText()">A+</button>
+                    <button class="decrease-txt" onclick="onDecreaseText()">A-</button>
+                    <button class="txt-to-left" onclick="onTextLeft()"><i class="fas fa-align-left"></i></button>
+                    <button class="txt-to-center" onclick="onTextCenter()"><i class="fas fa-align-center"></i></button>
+                    <button class="txt-to-right" onclick="onTextRight()"><i class="fas fa-align-right"></i></button>
+                    <select name="fonts" id="fonts" onchange="onChangeFont()">
+                        <option value="Impact">Impact</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Tahoma">Tahoma</option>
+                      </select>
+                    <div><input type="color" id="font-color" name="color" form="frmRegister" value="red" onclick="onChangeFillColor()" /></div>
+                    <div><input type="color" id="stroke-color" name="color" form="frmRegister" value="blue" onclick="onChangeStrokeColor()" /></div>
+
                 </div>
             </div>
 
             <div class="stickers">stickers goes here</div>
 
-            <div class="manage"><button onclick="clearCanvas()">Clear</button>
-                <a href="#" onclick="downloadCanvas(this)" download="">Download</a>
+            <div class="manage"><button onclick="onShareCanvas(this)"><i class="fas fa-share-alt"></i></button>
+                <a href="#" onclick="downloadCanvas(this)" download=""><i class="fas fa-download"></i></a>
+                <!-- <a href="#" onclick="onSaveCanvas(this)" download=""><i class="fas fa-folder-plus"></i></a> -->
             </div>
         </div>
 
@@ -60,16 +69,20 @@
             <div class="last-results">funny</div>
         </div>
         <div class="img-container ">
-
         </div>
     </div>
 
+    <footer class="main-footer container">
+        <p class="logo">© Memmmmmm - All Rights Reserved </p>
+
+    </footer>
 
 
 
 
 
 
+    <script src="https://kit.fontawesome.com/e05192990a.js" crossorigin="anonymous"></script>
     <script src="js/util.js"></script>
     <script src="js/service.js"></script>
     <script src="js/controller.js"></script>

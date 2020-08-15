@@ -1,18 +1,17 @@
 'use strict'
-gCanvas = document.getElementById('myCanvas');
-gCtx = gCanvas.getContext('2d');
-let gIsDown = false
+
 
 function onGetText() {
 
     gText = document.querySelector('.text-line').value
     updateMemeTxt(gText)
-
+    updateLineWidth(gMeme.selectedLineIdx)
     drawImg2()
 
 }
 
 function onChooseImg(src) {
+    gMeme = {}
     onOpenModal()
     resizeCanvas()
     createMeme()
@@ -22,11 +21,20 @@ function onChooseImg(src) {
 
 }
 
+function onChooseSticker(src) {
+    let elSticUrl = src.getAttribute('src');
+    updateMemeSticer(elSticUrl)
+    drawImg2()
+
+}
+
+
 function onIncreaseText() {
     UpdateGctxFont()
     if (gMeme.lines[gMeme.selectedLineIdx].size === 60) return
     gMeme.lines[gMeme.selectedLineIdx].size++
         drawImg2()
+    updateLineWidth(gMeme.selectedLineIdx)
 }
 
 function onDecreaseText() {
@@ -34,13 +42,13 @@ function onDecreaseText() {
     if (gMeme.lines[gMeme.selectedLineIdx].size === 20) return
     gMeme.lines[gMeme.selectedLineIdx].size--
         drawImg2()
+    updateLineWidth(gMeme.selectedLineIdx)
 }
 
 function onTextDown() {
     if (gMeme.lines[gMeme.selectedLineIdx].y === gCanvas.height - 15) return
     gMeme.lines[gMeme.selectedLineIdx].y++
         drawImg2()
-    console.log(gMeme.lines);
 
 
 }
@@ -137,9 +145,13 @@ function drawImg2() {
     img.onload = () => {
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
         drawText()
+
     }
     img.src = gMeme.imgUrl;
+    drawStickers()
+
 }
+
 
 
 function onTextRight() {
@@ -175,35 +187,88 @@ function toggleMenu() {
 function isDown(ev) {
     gIsDown = true
     const { offsetX, offsetY } = ev;
-    console.log(offsetX, offsetY);
+    gLineIdx = getLineIdx(offsetX, offsetY)
+    gStkrIdx = getStickerIdx(offsetX, offsetY);
+    console.log(gStkrIdx);
 
 }
 
 function onMoveElm(ev) {
-    if (gIsDown) {
-        const { offsetX, offsetY } = ev;
-        console.log(offsetX, offsetY);
+    const { offsetX, offsetY } = ev;
+
+    if (gIsDown && gLineIdx != -1) {
+        gMeme.lines[gLineIdx].y = offsetY
+        gMeme.lines[gLineIdx].x = offsetX
+        drawImg2()
+    }
+    if (gIsDown && gStkrIdx != -1) {
+        console.log('hi');
+        gStickers[gStkrIdx].y = offsetY
+        gStickers[gStkrIdx].x = offsetX
+
+        drawImg2()
     }
 
 }
-// function draw(ev) {
-//     const { offsetX, offsetY } = ev;
-//     // const offsetX = ev.offsetX;
-//     // const offsetY = ev.offsetY;
-//     console.log(offsetX, offsetY);
 
-//     switch (gCurrShape) {
-//         case 'triangle':
-//             drawTriangle(offsetX, offsetY);
-//             break;
-//         case 'rect':
-//             drawRect(offsetX, offsetY);
-//             break;
-//         case 'text':
-//             drawText('Puki', offsetX, offsetY);
-//             break;
-//         case 'line':
-//             drawLine(offsetX, offsetY);
-//             break;
-//     }
-// }
+function getStickerIdx(x, y) {
+    let stkrIdx = gStickers.findIndex(function(stkr) {
+        return x >= stkr.x && x <= stkr.x + stkr.size && y >= stkr.y && y <= stkr.y + stkr.size
+    })
+    return stkrIdx
+}
+
+
+
+function getLineIdx(x, y) {
+    let lineIdx = gMeme.lines.findIndex(function(line) {
+        return x >= line.x - line.width / 2 && x <= line.x + line.width / 2 && y >= line.y - line.size && y <= line.y
+    })
+
+    return lineIdx
+}
+
+
+function updateLineWidth(idx) {
+    let lineWidth = gCtx.measureText(gMeme.lines[idx].txt).width
+    gMeme.lines[idx].width = lineWidth
+
+}
+
+function isUp() {
+    gIsDown = false
+}
+
+
+function drawStickers() {
+    const img = new Image();
+    img.onload = () => {
+        gCtx.drawImage(img, gStickers[gCurrentStkr].x, gStickers[gCurrentStkr].y, gStickers[gCurrentStkr].size, gStickers[gCurrentStkr].size);
+
+    }
+    img.src = gMeme.stickerUrl;
+
+}
+
+function onGetSavedMemes() {
+    onCloseModal()
+    var strHtml = gSavedMemes.map(function(meme) {
+        return `<img src="${meme}" alt="" onclick="onChooseImg(this)">`
+    })
+    document.querySelector('.img-container').innerHTML = strHtml
+}
+
+
+
+
+function saveToLocal() {
+    const data = gCanvas.toDataURL()
+    gSavedMemes.push(data)
+    saveToStorage(KEY, gSavedMemes)
+
+}
+
+function onOpenGallery() {
+    onCloseModal()
+    renderImgs()
+}

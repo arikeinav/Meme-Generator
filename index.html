@@ -15,14 +15,14 @@
     <header class="main-header container ">
         <div class="logo">Memmmmm</div>
         <div class="header-nav">
-            <div class="tag-frame gallery-tag"> <a class="tag" href="#" onclick="onCloseModal()">Gallery</a></div>
-            <div class="tag-frame"> <a class="tag" href="#">About</a></div>
+            <div class="tag-frame gallery-tag"> <a class="tag" href="#" onclick="onOpenGallery()">Gallery</a></div>
+            <div class="tag-frame"> <a class="tag" href="#" onclick="onGetSavedMemes()">Memes</a></div>
         </div>
-        <button class="bgr-btn" onclick="toggleMenu()">☰</button>
+        <button class="bgr-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
     </header>
     <div class="modal container">
         <div class="canvas-container">
-            <canvas id="myCanvas" height="550" width="480" ontouchstart="handleTouch(event)" ontouchend="handleTouch(event)" ontouchmove="handleTouch(event)" onmousedown="isDown(event)" onmouseup="isDown(event)" onclick="" onmousemove="onMoveElm(event)"></canvas>
+            <canvas id="myCanvas" height="550" width="480" ontouchstart="isDown(event)" ontouchend="handleTouch(event)" ontouchmove="onMoveElm(event)" onmousedown="isDown(event)" onmouseup="isUp(event)" onclick="" onmousemove="onMoveElm(event)"></canvas>
         </div>
         <div class="editor">
             <input type="text-line" class="text-line" placeholder="Enter text" onkeyup=" onGetText()" />
@@ -52,13 +52,27 @@
                 </div>
             </div>
 
-            <div class="stickers">stickers goes here</div>
+            <div class="stickers">
+                <img src="svg/stk1.svg" alt="" onclick="onChooseSticker(this)">
+                <img src="svg/stk2.svg" alt="" onclick="onChooseSticker(this)">
+                <img src="svg/stk3.svg" alt="" onclick="onChooseSticker(this)">
+                <img src="svg/stk4.svg" alt="" onclick="onChooseSticker(this)">
+            </div>
 
-            <div class="manage"><button onclick="onShareCanvas(this)"><i class="fas fa-share-alt"></i></button>
+            <div class="manage">
                 <a href="#" onclick="downloadCanvas(this)" download=""><i class="fas fa-download"></i></a>
-                <!-- <a href="#" onclick="onSaveCanvas(this)" download=""><i class="fas fa-folder-plus"></i></a> -->
+                <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+                    <input name="img" id="imgData" type="hidden" />
+                    <button class="btn" type="submit"><i class="fas fa-share-alt"></i></button>
+
+                    <div class="share-container"></div>
+
+                </form>
+                <button onclick="saveToLocal()">save</button>
+
             </div>
         </div>
+
 
 
     </div>
@@ -86,6 +100,7 @@
     <script src="js/util.js"></script>
     <script src="js/service.js"></script>
     <script src="js/controller.js"></script>
+    <script src="js/upload-service.js"></script>
 </body>
 
 </html>

@@ -1,15 +1,19 @@
 'use strict'
-
-let gFontSize = 40
+let gCanvas = document.getElementById('myCanvas');
+let gCtx = gCanvas.getContext('2d');
+let gIsDown = false
+let gLineIdx;
+let gStkrIdx;
 let gText;
-var gCanvas = document.getElementById('myCanvas')
-var gCtx;
-var gCurrShape = 'text';
+let gCurrentStkr = 0
+const KEY = 'memes'
 var firstLoc;
 var gMeme = {}
+let gSavedMemes;
 
 
-var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['happy'] },
+var gImgs = [
+    { id: 1, url: 'img/1.jpg', keywords: ['happy'] },
     { id: 2, url: 'img/2.jpg', keywords: ['happy'] },
     { id: 3, url: 'img/3.jpg', keywords: ['happy'] },
     { id: 4, url: 'img/4.jpg', keywords: ['happy'] },
@@ -30,23 +34,42 @@ var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['happy'] },
 
 ];
 
+var gStickers = [
+    { url: 'svg/stk1.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
+    { url: 'svg/stk2.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
+    { url: 'svg/stk3.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
+    { url: 'svg/stk4.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 }
+];
+
+
+
+
+
 
 
 
 function init() {
+    getSaved()
     renderImgs()
 
+}
+
+function getSaved() {
+    gSavedMemes = loadFromStorage(KEY)
+    if (!gSavedMemes) gSavedMemes = []
 }
 
 function createMeme() {
     gMeme = {
         selectedImgId: 1,
         imgUrl: '',
+        stickerUrl: '',
         selectedLineIdx: 0,
         lines: addLine()
     }
     return gMeme
 }
+
 
 
 
@@ -68,7 +91,8 @@ function addLine() {
             align: 'center',
             color: 'white',
             stroke: 'black',
-            font: 'Impact'
+            font: 'Impact',
+            width: 0
         }
         lines.push(line)
     }
@@ -81,7 +105,7 @@ function updateFillColor(color) {
 }
 
 function updateStrokeColor(color) {
-    console.log(3);
+
     gMeme.lines[gMeme.selectedLineIdx].stroke = color;
 }
 
@@ -89,6 +113,12 @@ function updateMemeImg(url) {
     return gMeme.imgUrl = url
 
 }
+
+function updateMemeSticer(url) {
+    return gMeme.stickerUrl = url
+
+}
+
 
 function updateMemeTxt(txt) {
     return gMeme.lines[gMeme.selectedLineIdx].txt = txt
@@ -104,13 +134,9 @@ function deleteLine() {
     gMeme.lines[gMeme.selectedLineIdx].txt = ''
 }
 
-
-
-
-
-
-
-
+function deletStkr() {
+    gMeme.stickerUrl = ''
+}
 
 
 function downloadCanvas(elLink) {
@@ -125,31 +151,6 @@ function resizeCanvas() {
     gCanvas.height = elContainer.offsetHeight;
 }
 
-
-function setShape(shape) {
-    gCurrShape = shape;
-}
-
-
-
-function draw(ev) {
-
-    switch (gCurrShape) {
-        case 'triangle':
-            drawTriangle(offsetX, offsetY);
-            break;
-        case 'rect':
-            drawRect(offsetX, offsetY);
-            break;
-        case 'text':
-            drawText(getText(), 250, 50);
-            break;
-        case 'line':
-            drawLine(offsetX, offsetY);
-            break;
-
-    }
-}
 
 function getStrokeStyle() {
     return document.querySelector('#stroke-color').value

@@ -24,7 +24,23 @@
         }
         
         button {
+            cursor: pointer;
             outline: none;
+            font-size: 26px;
+        }
+        
+        .save {
+            border-radius: 15px;
+            border: 2px solid black;
+            background-color: #1e7cd3;
+        }
+        
+        img {
+            cursor: pointer;
+        }
+        
+        input {
+            cursor: pointer;
         }
         
         footer {
@@ -121,7 +137,6 @@
         
         .editor {
             width: 525px;
-            height: 550px;
             border: 2px solid black;
             border-radius: 30px;
             background-color: #bbc4d1;
@@ -131,9 +146,7 @@
         }
         
         .text-line {
-            margin-left: auto;
-            margin-right: auto;
-            width: 85%;
+            width: 50%;
             height: 57px;
             border-radius: 28px;
             background-color: white;
@@ -143,9 +156,9 @@
         .line-edit {
             margin-left: auto;
             margin-right: auto;
-            width: 85%;
+            width: 80%;
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
         }
         
         .line-edit button {
@@ -175,7 +188,6 @@
         }
         
         .text-style button {
-            box-shadow: 1px 5px 0 rgba(92, 92, 92, 0.55), inset 0 5px 0 rgba(255, 255, 255, 0.58);
             border-radius: 10px;
             background-color: #ffffff;
             background-color: #ffffff;
@@ -188,6 +200,7 @@
         }
         
         .stickers img {
+            margin-top: 5px;
             object-fit: contain;
             width: 50px;
             height: 50px;
@@ -197,11 +210,33 @@
             margin: 0 auto;
             width: 85%;
             border-radius: 45px;
-            background-color: #ffffff;
-            height: 80px;
+            background-color: rgb(15, 255, 235, 30%);
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            border: 2px solid black;
+        }
+        
+        .sticker-imeges {
             display: flex;
             justify-content: space-around;
-            align-items: center;
+        }
+        
+        .sticker-size {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .sticker-size button {
+            margin-left: 5px;
+            margin-right: 5px;
+            margin-bottom: 3px;
+            width: 50px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: #ebeef3;
+            background-image: linear-gradient(-38deg, #260d99 0%, #17c8e7 50%, #037a27 100%);
         }
         
         .manage {
@@ -226,7 +261,13 @@
         .manage a {
             border-radius: 15px;
             border: 2px solid black;
-            background-color: #1e7cd3;
+            background-color: #ebeef3;
+            background-image: linear-gradient(-38deg, #66c4dc 0%, #40b1ce 50%, #0c98bb 100%);
+        }
+        
+        .manage button {
+            background-color: #ebeef3;
+            background-image: linear-gradient(-38deg, #66c4dc 0%, #40b1ce 50%, #0c98bb 100%);
         }
         
         form * {
@@ -244,7 +285,8 @@
         form button {
             border-radius: 15px;
             border: 2px solid black;
-            background-color: #1e7cd3;
+            background-color: #ebeef3;
+            background-image: linear-gradient(-38deg, #66c4dc 0%, #40b1ce 50%, #0c98bb 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -321,9 +363,15 @@
             border-radius: 10px;
         }
         
+        .sticker-size img {
+            width: 30px;
+            height: 30px;
+        }
+        
         @media (max-width:680px) {
             .main-header {
                 width: 100%;
+                height: 50px;
                 border-radius: 0px;
             }
             .header-nav:last-child {
@@ -335,8 +383,8 @@
                 top: 0;
                 right: 0;
                 height: 100vh;
-                background-color: rgb(89, 112, 193, 80%);
-                background-image: linear-gradient(-86deg, #33be6d 100%, #0c98b9 0%);
+                background-color: rgb(51, 190, 109, 80%);
+                /* background-image: linear-gradient(-86deg, #33be6d 100%, #0c98b9 10%); */
                 margin: 0;
                 justify-content: flex-start;
                 transform: translateX(100%);
@@ -347,6 +395,7 @@
                 width: 90%;
             }
             .main-header {
+                margin-bottom: 5px;
                 justify-content: space-between;
             }
             .bgr-btn {
@@ -354,9 +403,10 @@
             }
             .logo {
                 padding-left: 20px;
+                font-size: 15px
             }
             body.menu-open .header-nav {
-                transform: translate(0%, 72px);
+                transform: translate(0%, 50px);
             }
             .search {
                 flex-direction: column;
@@ -379,28 +429,33 @@
                 grid-template-rows: repeat(9, minmax(160px, 1fr));
             }
             .modal {
-                height: 620px;
                 flex-direction: column;
                 padding: 0;
             }
             .canvas-container {
                 align-self: center;
                 margin-bottom: 10px;
-                height: 50%;
                 width: 95%;
+                max-height: 300px;
             }
             .editor {
                 margin: auto;
-                height: 50%;
+                height: 350px;
                 width: 95%;
             }
             .text-line {
-                width: 95%;
+                width: 60%;
+                height: 30px;
+                margin: 5px 0 5px 0;
             }
             .line-edit {
                 width: 98%;
                 display: flex;
                 justify-content: space-between;
+            }
+            .line-edit button {
+                height: 40px;
+                margin: 5px auto 5px auto;
             }
             .text-style {
                 width: 98%;
@@ -421,5 +476,10 @@
             }
             .text-font {
                 grid-column-end: span 3;
+            }
+            footer {
+                height: 30px;
+                border-radius: 0;
+                margin-top: 40px;
             }
         }

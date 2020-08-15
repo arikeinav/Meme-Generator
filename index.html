@@ -7,7 +7,6 @@
     <title>My memes</title>
     <link rel="stylesheet" href="css/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" rel="stylesheet">
 </head>
 
 <body onload="init()">
@@ -25,13 +24,10 @@
             <canvas id="myCanvas" height="550" width="480" ontouchstart="isDown(event)" ontouchend="handleTouch(event)" ontouchmove="onMoveElm(event)" onmousedown="isDown(event)" onmouseup="isUp(event)" onclick="" onmousemove="onMoveElm(event)"></canvas>
         </div>
         <div class="editor">
-            <input type="text-line" class="text-line" placeholder="Enter text" onkeyup=" onGetText()" />
             <div class="line-edit">
-                <button class="txt-down" onclick="onTextUp()">text up</button>
-                <button class="txt-up" onclick="onTextDown()">text down</button>
+                <input type="text-line" class="text-line" placeholder="Enter text" onkeyup=" onGetText()" />
                 <button class="line-change" onclick="onChangeLine()"><i class="fas fa-sort"></i></button>
-                <button class="add-txt" onclick="onGetText()"><i class="fas fa-plus"></i></button>
-                <button class="add-txt" onclick="onDeleteLine()"><i class="far fa-trash-alt"></i></button>
+                <button class="delete-txt" onclick="onDeleteLine()"><i class="far fa-trash-alt"></i></button>
             </div>
             <div class="text-style">
                 <div class="grid">
@@ -48,15 +44,20 @@
                       </select>
                     <div><input type="color" id="font-color" name="color" form="frmRegister" value="red" onclick="onChangeFillColor()" /></div>
                     <div><input type="color" id="stroke-color" name="color" form="frmRegister" value="blue" onclick="onChangeStrokeColor()" /></div>
-
                 </div>
             </div>
 
             <div class="stickers">
-                <img src="svg/stk1.svg" alt="" onclick="onChooseSticker(this)">
-                <img src="svg/stk2.svg" alt="" onclick="onChooseSticker(this)">
-                <img src="svg/stk3.svg" alt="" onclick="onChooseSticker(this)">
-                <img src="svg/stk4.svg" alt="" onclick="onChooseSticker(this)">
+                <div class="sticker-imeges">
+                    <img src="svg/stk1.svg" alt="" onclick="onChooseSticker(this)">
+                    <img src="svg/stk2.svg" alt="" onclick="onChooseSticker(this)">
+                    <img src="svg/stk3.svg" alt="" onclick="onChooseSticker(this)">
+                    <img src="svg/stk4.svg" alt="" onclick="onChooseSticker(this)">
+                </div>
+                <div class="sticker-size">
+                    <button class="increase-stkr" onclick="onIncreaseStkr()">+</button>
+                    <button class="decrease-stkr" onclick="onDecreaseStkr()">-</button>
+                </div>
             </div>
 
             <div class="manage">
@@ -68,12 +69,10 @@
                     <div class="share-container"></div>
 
                 </form>
-                <button onclick="saveToLocal()">save</button>
+                <button class="save" onclick="saveToLocal()">save</button>
 
             </div>
         </div>
-
-
 
     </div>
 
@@ -97,10 +96,10 @@
 
 
     <script src="https://kit.fontawesome.com/e05192990a.js" crossorigin="anonymous"></script>
-    <script src="js/util.js"></script>
+    <script src="js/upload-service.js"></script>
+    <script src="js/storege-service.js"></script>
     <script src="js/service.js"></script>
     <script src="js/controller.js"></script>
-    <script src="js/upload-service.js"></script>
 </body>
 
 </html>

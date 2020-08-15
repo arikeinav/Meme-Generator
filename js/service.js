@@ -1,18 +1,18 @@
 'use strict'
-let gCanvas = document.getElementById('myCanvas');
-let gCtx = gCanvas.getContext('2d');
+
+const KEY = 'memes'
+
 let gIsDown = false
 let gLineIdx;
 let gStkrIdx;
 let gText;
 let gCurrentStkr = 0
-const KEY = 'memes'
-var firstLoc;
-var gMeme = {}
+let firstLoc;
+let gMeme = {}
 let gSavedMemes;
-
-
-var gImgs = [
+let gStickers;
+let gCurrentLine;
+let gImgs = [
     { id: 1, url: 'img/1.jpg', keywords: ['happy'] },
     { id: 2, url: 'img/2.jpg', keywords: ['happy'] },
     { id: 3, url: 'img/3.jpg', keywords: ['happy'] },
@@ -34,25 +34,15 @@ var gImgs = [
 
 ];
 
-var gStickers = [
-    { url: 'svg/stk1.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
-    { url: 'svg/stk2.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
-    { url: 'svg/stk3.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
-    { url: 'svg/stk4.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 }
-];
-
-
-
-
-
-
-
-
-function init() {
-    getSaved()
-    renderImgs()
-
+function createStkr() {
+    gStickers = [
+        { url: 'svg/stk1.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
+        { url: 'svg/stk2.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
+        { url: 'svg/stk3.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
+        { url: 'svg/stk4.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 }
+    ]
 }
+
 
 function getSaved() {
     gSavedMemes = loadFromStorage(KEY)
@@ -70,9 +60,6 @@ function createMeme() {
     return gMeme
 }
 
-
-
-
 function addLine() {
     let lines = []
     for (let i = 0; i < 3; i++) {
@@ -82,7 +69,6 @@ function addLine() {
         } else if (i === 1) {
             y = gCanvas.height - 20
         } else y = gCanvas.height / 2
-
         let line = {
             txt: '',
             size: 40,
@@ -105,7 +91,6 @@ function updateFillColor(color) {
 }
 
 function updateStrokeColor(color) {
-
     gMeme.lines[gMeme.selectedLineIdx].stroke = color;
 }
 
@@ -158,4 +143,34 @@ function getStrokeStyle() {
 
 function getFillStyle() {
     return document.querySelector('#fill-color').value
+}
+
+
+
+function getStickerIdx(x, y) {
+    let stkrIdx = gStickers.findIndex(function(stkr) {
+        return x >= stkr.x && x <= stkr.x + stkr.size && y >= stkr.y && y <= stkr.y + stkr.size
+    })
+    return stkrIdx
+}
+
+
+function getLineIdx(x, y) {
+    let lineIdx = gMeme.lines.findIndex(function(line) {
+        return x >= line.x - line.width / 2 && x <= line.x + line.width / 2 && y >= line.y - line.size && y <= line.y
+    })
+    return lineIdx
+}
+
+function getMemeLine() {
+    gCurrentLine = gMeme.lines[gMeme.selectedLineIdx]
+}
+
+function isUp() {
+    gIsDown = false
+}
+
+function updateLineWidth(idx) {
+    let lineWidth = gCtx.measureText(gMeme.lines[idx].txt).width
+    gMeme.lines[idx].width = lineWidth
 }

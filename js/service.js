@@ -30,7 +30,7 @@ let gImgs = [
     { id: 15, url: 'img/15.jpg', keywords: ['happy'] },
     { id: 16, url: 'img/16.jpg', keywords: ['happy'] },
     { id: 17, url: 'img/17.jpg', keywords: ['happy'] },
-    { id: 18, url: 'img/18.jpg', keywords: ['happy'] },
+    { id: 18, url: 'img/18.jpg', keywords: ['happy'] }, //loop
 
 ];
 
@@ -39,7 +39,7 @@ function createStkr() {
         { url: 'svg/stk1.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
         { url: 'svg/stk2.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
         { url: 'svg/stk3.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
-        { url: 'svg/stk4.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 }
+        { url: 'svg/stk4.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 } //loop
     ]
 }
 
@@ -64,7 +64,7 @@ function addLine() {
     let lines = []
     for (let i = 0; i < 3; i++) {
         let y;
-        if (i === 0) {
+        if (i === 0) { // !i
             y = 50
         } else if (i === 1) {
             y = gCanvas.height - 20
@@ -166,7 +166,7 @@ function getMemeLine() {
     gCurrentLine = gMeme.lines[gMeme.selectedLineIdx]
 }
 
-function isUp() {
+function onMouseUp() {
     gIsDown = false
 }
 

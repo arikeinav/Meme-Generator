@@ -19,9 +19,9 @@
         </div>
         <button class="bgr-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
     </header>
-    <div class="modal container">
+    <div class="modal">
         <div class="canvas-container">
-            <canvas id="myCanvas" height="550" width="480" ontouchstart="isDown(event)" ontouchend="handleTouch(event)" ontouchmove="onMoveElm(event)" onmousedown="isDown(event)" onmouseup="isUp(event)" onclick="" onmousemove="onMoveElm(event)"></canvas>
+            <canvas id="myCanvas" height="400" width="500" ontouchstart="onTouchDown(event)" ontouchend="onMouseUp(event)" ontouchmove="onTouchMoveElm(event)" onmousedown="onMouseDown(event)" onmouseup="onMouseUp(event)" onclick="" onmousemove="onMoveElm(event)"></canvas>
         </div>
         <div class="editor">
             <div class="line-edit">

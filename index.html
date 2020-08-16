@@ -9,19 +9,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 </head>
 
-<body onload="init()">
+<body onload="onInit()">
 
     <header class="main-header container ">
-        <div class="logo">Memmmmm</div>
+        <div class="logo">MemeGen</div>
         <div class="header-nav">
             <div class="tag-frame gallery-tag"> <a class="tag" href="#" onclick="onOpenGallery()">Gallery</a></div>
             <div class="tag-frame"> <a class="tag" href="#" onclick="onGetSavedMemes()">Memes</a></div>
         </div>
-        <button class="bgr-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+        <button class="bgr-btn" onclick="onToggleMenu()"><i class="fas fa-bars"></i></button>
     </header>
     <div class="modal">
         <div class="canvas-container">
-            <canvas id="myCanvas" height="400" width="500" ontouchstart="onTouchDown(event)" ontouchend="onMouseUp(event)" ontouchmove="onTouchMoveElm(event)" onmousedown="onMouseDown(event)" onmouseup="onMouseUp(event)" onclick="" onmousemove="onMoveElm(event)"></canvas>
+            <canvas id="myCanvas" height="400" width="500" ontouchstart="onTouchDown(event)" ontouchend="onMouseUp(event)" ontouchmove="onTouchMoveElm(event)" onmousedown="onMouseDown(event)" onmouseup="onMouseUp()(event)" onclick="" onmousemove="onMoveElm(event)"></canvas>
         </div>
         <div class="editor">
             <div class="line-edit">
@@ -42,8 +42,10 @@
                         <option value="Verdana">Verdana</option>
                         <option value="Tahoma">Tahoma</option>
                       </select>
-                    <div><input type="color" id="font-color" name="color" form="frmRegister" value="red" onclick="onChangeFillColor()" /></div>
-                    <div><input type="color" id="stroke-color" name="color" form="frmRegister" value="blue" onclick="onChangeStrokeColor()" /></div>
+                    <div> <label for="font-color"><i class="fas fa-paint-brush"></i></label>
+                        <input type="color" id="font-color" name="color" form="frmRegister" value="red" onclick="onChangeFillColor()" hidden/></div>
+
+                    <div><label for="stroke-color"><i class="far fa-edit"></i><input type="color" id="stroke-color" name="color" form="frmRegister" value="blue" onclick="onChangeStrokeColor()"hidden /></div>
                 </div>
             </div>
 
@@ -53,6 +55,8 @@
                     <img src="svg/stk2.svg" alt="" onclick="onChooseSticker(this)">
                     <img src="svg/stk3.svg" alt="" onclick="onChooseSticker(this)">
                     <img src="svg/stk4.svg" alt="" onclick="onChooseSticker(this)">
+                    <img src="svg/stk5.svg" alt="" onclick="onChooseSticker(this)">
+                    <img src="svg/stk6.svg" alt="" onclick="onChooseSticker(this)">
                 </div>
                 <div class="sticker-size">
                     <button class="increase-stkr" onclick="onIncreaseStkr()">+</button>
@@ -86,13 +90,9 @@
     </div>
 
     <footer class="main-footer container">
-        <p class="logo">© Memmmmmm - All Rights Reserved </p>
+        <p class="logo">© MemeGen- All Rights Reserved </p>
 
     </footer>
-
-
-
-
 
 
     <script src="https://kit.fontawesome.com/e05192990a.js" crossorigin="anonymous"></script>

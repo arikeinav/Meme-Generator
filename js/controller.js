@@ -6,20 +6,20 @@ let gCtx = gCanvas.getContext('2d');
 
 // gallery functions
 
-function init() { //onInit()
+function onInit() {
     getSaved()
     renderImgs()
 }
 
 function onChooseImg(src) {
-    gMeme = {} //service
+    //service
     onOpenModal()
     resizeCanvas()
     createMeme()
     createStkr() // can call one function in service
-    let elImgUrl = src.getAttribute('src'); //imgSrc
-    updateMemeImg(elImgUrl);
-    drawImg2() // remove 2
+    let imgSrc = src.getAttribute('src');
+    updateMemeImg(imgSrc);
+    drawImg()
 }
 
 function renderImgs() {
@@ -29,13 +29,13 @@ function renderImgs() {
     document.querySelector('.img-container').innerHTML = strHtml.join('')
 }
 
-function toggleMenu() {
+function onToggleMenu() {
     document.body.classList.toggle('menu-open')
 }
 
 function onGetSavedMemes() {
     onCloseModal()
-    toggleMenu()
+    onToggleMenu()
     let strHtml = gSavedMemes.map(function(meme) {
         return `<img src="${meme}" alt="" onclick="onChooseImg(this)">`
     })
@@ -44,17 +44,17 @@ function onGetSavedMemes() {
 
 function onOpenGallery() {
     onCloseModal()
-    toggleMenu()
-    renderImgs() // maybe it can be inside one func
+    onToggleMenu()
+    renderImgs()
 }
 
 // editor functions
 
 function onGetText() {
-    gText = document.querySelector('.text-line').value // let text
-    updateMemeTxt(gText) // updateMemeText(text)
+    let text = document.querySelector('.text-line').value
+    updateMemeTxt(text)
     updateLineWidth(gMeme.selectedLineIdx)
-    drawImg2()
+    drawImg()
 
 }
 
@@ -63,7 +63,7 @@ function onIncreaseText() {
     getMemeLine()
     if (gCurrentLine.size === 60) return
     gCurrentLine.size++
-        drawImg2()
+        drawImg()
     updateLineWidth(gMeme.selectedLineIdx)
 }
 
@@ -72,7 +72,7 @@ function onDecreaseText() {
     getMemeLine()
     if (gCurrentLine.size === 20) return
     gCurrentLine.size--
-        drawImg2()
+        drawImg()
     updateLineWidth(gMeme.selectedLineIdx)
 }
 
@@ -81,7 +81,7 @@ function onDecreaseText() {
 function onGetFillColor(event) {
     let elColor = event.target.value
     updateFillColor(elColor);
-    drawImg2()
+    drawImg()
 
 }
 
@@ -95,7 +95,7 @@ function onChangeFillColor() {
 function onGetStrokeColor(event) {
     let elColor = event.target.value
     updateStrokeColor(elColor);
-    drawImg2()
+    drawImg()
 }
 
 function onChangeStrokeColor() {
@@ -107,7 +107,8 @@ function onChangeStrokeColor() {
 
 function onDeleteLine() {
     deleteLine()
-    drawImg2()
+    document.querySelector('.text-line').value = ''
+    drawImg()
 }
 
 function onChangeLine() {
@@ -116,28 +117,47 @@ function onChangeLine() {
         gMeme.selectedLineIdx = 0
     } else gMeme.selectedLineIdx++
         getMemeLine()
+    let lineRect = getLineREct(gCurrentLine)
+    const img = new Image();
+    img.onload = () => {
+        gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
+        drawText()
+        drawRect(lineRect.x, lineRect.y, lineRect.width, lineRect.size)
+    }
+    img.src = gMeme.imgUrl;
+    drawStickers()
     document.querySelector('.text-line').value = gCurrentLine.txt
+}
+
+function getLineREct(line) {
+    let lineRect = {
+        x: (line.x - (line.width / 2)) - 3,
+        y: line.y - line.size + 3,
+        width: line.width + 6,
+        size: line.size + 3
+    }
+    return lineRect
 }
 
 function onTextRight() {
     getMemeLine()
     gCurrentLine.x = gCanvas.width - 30
     gCurrentLine.align = 'right'
-    drawImg2()
+    drawImg()
 }
 
 function onTextLeft() {
     getMemeLine()
     gCurrentLine.x = 30
     gCurrentLine.align = 'left'
-    drawImg2()
+    drawImg()
 }
 
 function onTextCenter() {
     getMemeLine()
     gCurrentLine.x = gCanvas.width / 2
     gCurrentLine.align = 'center'
-    drawImg2()
+    drawImg()
 
 } // try to align in one func
 
@@ -145,7 +165,7 @@ function onChangeFont() {
     getMemeLine()
     let elFont = document.querySelector('#fonts').value
     gCurrentLine.font = elFont
-    drawImg2()
+    drawImg()
 
 }
 
@@ -156,20 +176,20 @@ function onChooseSticker(src) {
         return stkr.url === elSticUrl
     })
     createStkr()
-    drawImg2()
+    drawImg()
 }
 
 
 function onIncreaseStkr() {
     if (gStickers[gCurrentStkr].size === 120) return
     gStickers[gCurrentStkr].size++
-        drawImg2()
+        drawImg()
 }
 
 function onDecreaseStkr() {
     if (gStickers[gCurrentStkr].size === 30) return
     gStickers[gCurrentStkr].size--
-        drawImg2()
+        drawImg()
 }
 
 function drawStickers() {
@@ -203,7 +223,7 @@ function UpdateGctxFont() {
     gCtx.font = fontSize + 'px ' + fontName
 }
 
-function drawImg2() {
+function drawImg() {
     const img = new Image();
     img.onload = () => {
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
@@ -219,7 +239,7 @@ function onMouseDown(ev) { //function name should be a verb
     gIsDown = true // sevice -> isMouseDown
     const { offsetX, offsetY } = ev;
     gLineIdx = getLineIdx(offsetX, offsetY)
-    gStkrIdx = getStickerIdx(offsetX, offsetY); //try on mobile (clientX, clientY)
+    gStkrIdx = getStickerIdx(offsetX, offsetY);
 
 }
 
@@ -227,37 +247,37 @@ function onTouchDown(ev) {
     ev.preventDefault()
     gIsDown = true // sevice -> isMouseDown
     gLineIdx = getLineIdx(ev.touches[0].clientX, ev.touches[0].clientY)
-    gStkrIdx = getStickerIdx(ev.touches[0].clientX, ev.touches[0].clientY); //try on mobile (clientX, clientY)
-
+    gStkrIdx = getStickerIdx(ev.touches[0].clientX, ev.touches[0].clientY);
+    x >= stkr.x - 10 && x <= stkr.x + stkr.size + 10 && y >= stkr.y - 20 && y <= stkr.y + stkr.size + 20
 }
 
 
 function onMoveElm(ev) {
     const { offsetX, offsetY } = ev;
-    if (gIsDown && gLineIdx != -1) {
+    if (gIsDown && gLineIdx !== -1) {
         gMeme.lines[gLineIdx].y = offsetY
         gMeme.lines[gLineIdx].x = offsetX
-        drawImg2()
+        drawImg()
     }
-    if (gIsDown && gStkrIdx != -1) {
-        gStickers[gStkrIdx].y = offsetY
-        gStickers[gStkrIdx].x = offsetX
-        drawImg2()
+    if (gIsDown && gStkrIdx !== -1) {
+        gStickers[gCurrentStkr].y = offsetY
+        gStickers[gCurrentStkr].x = offsetX
+        drawImg()
     }
 }
 
 function onTouchMoveElm(ev) {
     ev.preventDefault()
     if (gIsDown && gLineIdx !== -1) {
-        console.log('hi');
         gMeme.lines[gLineIdx].y = ev.touches[0].clientY
         gMeme.lines[gLineIdx].x = ev.touches[0].clientX
-        drawImg2()
+        drawImg()
     }
+
     if (gIsDown && gStkrIdx !== -1) {
         gStickers[gStkrIdx].y = ev.touches[0].clientY
         gStickers[gStkrIdx].x = ev.touches[0].clientX
-        drawImg2()
+        drawImg()
     }
 }
 
@@ -269,31 +289,11 @@ function onCloseModal() {
 function onOpenModal() {
     document.querySelector('.modal').style.display = 'flex'
     document.querySelector('.gallery').style.display = 'none'
-} // onToggleModal
-
-
-function saveToLocal() { //onSaveCanvas
-    const data = gCanvas.toDataURL()
-        // saveMeme(data) in service
-    gSavedMemes.push(data) // service
-    saveToStorage(KEY, gSavedMemes)
-
 }
 
-
-// function onTextDown() {
-//     getMemeLine()
-//     if (gCurrentLine.y === gCanvas.height - 15) return
-//     gCurrentLine.y++
-//         drawImg2()
-
-
-// }
-
-// function onTextUp() {
-//     getMemeLine()
-//     if (gCurrentLine.y === 40) return
-//     gCurrentLine.y--
-//         drawImg2()
-
-// }
+function drawRect(x, y, width, height) {
+    gCtx.beginPath();
+    gCtx.rect(x, y, width, height);
+    gCtx.strokeStyle = 'yellow';
+    gCtx.stroke();
+}

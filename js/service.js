@@ -5,7 +5,7 @@ const KEY = 'memes'
 let gIsDown = false
 let gLineIdx;
 let gStkrIdx;
-let gText;
+
 let gCurrentStkr = 0
 let firstLoc;
 let gMeme = {}
@@ -39,7 +39,9 @@ function createStkr() {
         { url: 'svg/stk1.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
         { url: 'svg/stk2.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
         { url: 'svg/stk3.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
-        { url: 'svg/stk4.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 } //loop
+        { url: 'svg/stk4.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
+        { url: 'svg/stk5.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
+        { url: 'svg/stk6.svg', x: gCanvas.width / 2, y: gCanvas.height / 2, size: 50 },
     ]
 }
 
@@ -53,11 +55,15 @@ function createMeme() {
     gMeme = {
         selectedImgId: 1,
         imgUrl: '',
-        stickerUrl: '',
+        stickers: [],
         selectedLineIdx: 0,
         lines: addLine()
     }
     return gMeme
+}
+
+function addStkrToMeme(stkr) {
+    gMeme.stickers.push(stkr)
 }
 
 function addLine() {
@@ -117,6 +123,20 @@ function getText() {
 
 function deleteLine() {
     gMeme.lines[gMeme.selectedLineIdx].txt = ''
+    gMeme.lines[gMeme.selectedLineIdx].size = 40
+    gMeme.lines[gMeme.selectedLineIdx].x = gCanvas.width / 2
+    gMeme.lines[gMeme.selectedLineIdx].widte = 0
+    gMeme.lines[gMeme.selectedLineIdx].y = getLineY(gMeme.selectedLineIdx)
+}
+
+function getLineY(lineIdx) {
+    let y;
+    if (lineIdx === 0) {
+        y = 50
+    } else if (lineIdx === 1) {
+        y = gCanvas.height - 20
+    } else y = gCanvas.height / 2
+    return y
 }
 
 function deletStkr() {
@@ -149,7 +169,7 @@ function getFillStyle() {
 
 function getStickerIdx(x, y) {
     let stkrIdx = gStickers.findIndex(function(stkr) {
-        return x >= stkr.x && x <= stkr.x + stkr.size && y >= stkr.y && y <= stkr.y + stkr.size
+        return x >= stkr.x - 10 && x <= stkr.x + stkr.size + 10 && y >= stkr.y - 20 && y <= stkr.y + stkr.size + 20
     })
     return stkrIdx
 }
@@ -173,4 +193,12 @@ function onMouseUp() {
 function updateLineWidth(idx) {
     let lineWidth = gCtx.measureText(gMeme.lines[idx].txt).width
     gMeme.lines[idx].width = lineWidth
+}
+
+function saveToLocal() { //onSaveCanvas
+    const data = gCanvas.toDataURL()
+        // saveMeme(data) in service
+    gSavedMemes.push(data) // service
+    saveToStorage(KEY, gSavedMemes)
+
 }

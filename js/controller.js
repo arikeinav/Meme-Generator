@@ -248,7 +248,7 @@ function onTouchDown(ev) {
     gIsDown = true // sevice -> isMouseDown
     gLineIdx = getLineIdx(ev.touches[0].clientX, ev.touches[0].clientY)
     gStkrIdx = getStickerIdx(ev.touches[0].clientX, ev.touches[0].clientY);
-    x >= stkr.x - 10 && x <= stkr.x + stkr.size + 10 && y >= stkr.y - 20 && y <= stkr.y + stkr.size + 20
+
 }
 
 
@@ -275,8 +275,8 @@ function onTouchMoveElm(ev) {
     }
 
     if (gIsDown && gStkrIdx !== -1) {
-        gStickers[gStkrIdx].y = ev.touches[0].clientY
-        gStickers[gStkrIdx].x = ev.touches[0].clientX
+        gStickers[gCurrentStkr].y = ev.touches[0].clientY
+        gStickers[gCurrentStkr].x = ev.touches[0].clientX
         drawImg()
     }
 }

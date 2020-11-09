@@ -66,13 +66,7 @@
 
             <div class="manage">
                 <a href="#" onclick="downloadCanvas(this)" download=""><i class="fas fa-download"></i></a>
-                <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
-                    <input name="img" id="imgData" type="hidden" />
-                    <button class="btn" type="submit"><i class="fas fa-share-alt"></i></button>
-
-                    <div class="share-container"></div>
-
-                </form>
+         
                 <button class="save" onclick="saveToLocal()">save</button>
 
             </div>
@@ -81,10 +75,7 @@
     </div>
 
     <div class="gallery container">
-        <div class="search">
-            <input type="text" class="search-bar" placeholder="search..." />
-            <div class="last-results">funny</div>
-        </div>
+       
         <div class="img-container ">
         </div>
     </div>

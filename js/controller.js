@@ -4,7 +4,7 @@ let gCanvas = document.getElementById('myCanvas');
 let gCtx = gCanvas.getContext('2d');
 
 
-// gallery functions
+
 
 function onInit() {
     getSaved()
@@ -12,11 +12,11 @@ function onInit() {
 }
 
 function onChooseImg(src) {
-    //service
+    
     onOpenModal()
     resizeCanvas()
     createMeme()
-    createStkr() // can call one function in service
+    createStkr() 
     let imgSrc = src.getAttribute('src');
     updateMemeImg(imgSrc);
     drawImg()
@@ -48,7 +48,7 @@ function onOpenGallery() {
     renderImgs()
 }
 
-// editor functions
+
 
 function onGetText() {
     let text = document.querySelector('.text-line').value
@@ -59,7 +59,7 @@ function onGetText() {
 }
 
 function onIncreaseText() {
-    UpdateGctxFont() //updateCtxFont
+    UpdateGctxFont() 
     getMemeLine()
     if (gCurrentLine.size === 60) return
     gCurrentLine.size++
@@ -159,7 +159,7 @@ function onTextCenter() {
     gCurrentLine.align = 'center'
     drawImg()
 
-} // try to align in one func
+} 
 
 function onChangeFont() {
     getMemeLine()
@@ -235,8 +235,8 @@ function drawImg() {
 }
 
 
-function onMouseDown(ev) { //function name should be a verb
-    gIsDown = true // sevice -> isMouseDown
+function onMouseDown(ev) { 
+    gIsDown = true 
     const { offsetX, offsetY } = ev;
     gLineIdx = getLineIdx(offsetX, offsetY)
     gStkrIdx = getStickerIdx(offsetX, offsetY);
@@ -245,7 +245,7 @@ function onMouseDown(ev) { //function name should be a verb
 
 function onTouchDown(ev) {
     ev.preventDefault()
-    gIsDown = true // sevice -> isMouseDown
+    gIsDown = true // 
     gLineIdx = getLineIdx(ev.touches[0].clientX, ev.touches[0].clientY)
     gStkrIdx = getStickerIdx(ev.touches[0].clientX, ev.touches[0].clientY);
 

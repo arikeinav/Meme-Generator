@@ -393,7 +393,6 @@
                 right: 0;
                 height: 100vh;
                 background-color: rgb(51, 190, 109, 80%);
-                /* background-image: linear-gradient(-86deg, #33be6d 100%, #0c98b9 10%); */
                 margin: 0;
                 justify-content: flex-start;
                 transform: translateX(100%);
@@ -490,5 +489,10 @@
                 height: 30px;
                 border-radius: 0;
                 margin-top: 40px;
+            }
+            .stickers img {
+                
+                width: 42px;
+                
             }
         }
